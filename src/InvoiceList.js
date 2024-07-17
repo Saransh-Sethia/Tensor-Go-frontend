@@ -1,12 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-
+import config from './config';
 const InvoiceList = () => {
     const [invoices,setInvoices] = useState([]);
 
     const fetchInvoice = async() => {
         try{
-            const res = await axios.get(`http://localhost:5000/api/invoices`);
+            const res = await axios.get(`${config.endpoint}/api/invoices`,{ 
+              headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem('token')
+              }  
+        });
+        console.log(res);
+            const result = await res.data;
+            console.log('data',result);
             setInvoices(res.data);
         }catch(error){
             console.log('Error Fetching Invoices', error)
